@@ -2,28 +2,30 @@ let isUnlocked = false;
 const canvas = document.getElementById('snow-canvas');
 const ctx = canvas.getContext('2d');
 
+// Initializes the misty, frosted glass texture over the screen
 function initFogWindow() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
-    // Create a realistic, semi-transparent misty white steam layer
-    ctx.fillStyle = 'rgba(235, 243, 250, 0.88)'; // Frosted condensation look
+    // Create a semi-transparent condensation look
+    ctx.fillStyle = 'rgba(235, 243, 250, 0.90)'; 
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Add micro-texture so the fog looks slightly beaded with moisture
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-    for (let i = 0; i < 500; i++) {
+    // Add micro-droplet textures so the glass looks realistically cold
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    for (let i = 0; i < 400; i++) {
         ctx.beginPath();
-        ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 4 + 1, 0, Math.PI * 2);
+        ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 3 + 1, 0, Math.PI * 2);
         ctx.fill();
     }
 }
 
+// Readjust canvas layout seamlessly if the phone changes orientation
 window.addEventListener('resize', () => {
     if (isUnlocked) initFogWindow();
 });
 
-// Drawing States
+// Touch and Move Tracking State Machine
 let drawing = false;
 
 function getCoordinates(e) {
@@ -40,22 +42,23 @@ function startCarving(e) {
 
 function stopCarving() {
     drawing = false;
-    ctx.beginPath();
+    ctx.beginPath(); // Resets structural line breaks
 }
 
 function carve(e) {
     if (!drawing || !isUnlocked) return;
     const pos = getCoordinates(e);
     
-    // This is the magic formula that makes it feel like water/steam!
+    // 'destination-out' cleanly blends and clears out the pixels
     ctx.globalCompositeOperation = 'destination-out';
     
-    // Set up a soft, blurry brush edge
-    ctx.lineWidth = 45; // Thickness of a thumb wiping condensation
+    // Set up a thick brush width that mimics a human finger swipe
+    ctx.lineWidth = 48; 
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     
-    // Adding shadowBlur on a transparent brush makes the edges look wet and melted
+    // The secret sauce: Adding shadowBlur creates a soft, watery edge 
+    // instead of a hard, digital cutout line.
     ctx.shadowBlur = 15;
     ctx.shadowColor = 'rgba(0,0,0,1)'; 
     
@@ -65,16 +68,17 @@ function carve(e) {
     ctx.moveTo(pos.x, pos.y);
 }
 
-// Attach Event Listeners
+// Desktop Mouse Event Tracking
 canvas.addEventListener('mousedown', startCarving);
 canvas.addEventListener('mousemove', carve);
 window.addEventListener('mouseup', stopCarving);
 
+// Mobile Touch Screen Event Tracking
 canvas.addEventListener('touchstart', startCarving);
 canvas.addEventListener('touchmove', carve);
 window.addEventListener('touchend', stopCarving);
 
-// Unlock Site Hook
+// Handle Surprise Reveal Overlay Hook
 document.getElementById("open-btn").addEventListener("click", () => {
     isUnlocked = true;
     
@@ -85,7 +89,7 @@ document.getElementById("open-btn").addEventListener("click", () => {
     document.getElementById("main-content").classList.remove("blurred");
     
     const music = document.getElementById("bg-music");
-    music.play().catch(err => console.log("Audio waiting..."));
+    music.play().catch(err => console.log("Audio waiting for user gesture:", err));
     
     initFogWindow();
 });
