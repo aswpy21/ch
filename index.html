@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Foggy Window Surprise</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="surprise-overlay" class="overlay">
+        <div class="overlay-card">
+            <div class="gift-icon">🎁</div>
+            <h2>Look through the window...</h2>
+            <p>Open the surprise, then wipe the foggy glass with your finger to see what's on the other side.</p>
+            <button id="open-btn" class="cta-button">Open Surprise ✨</button>
+        </div>
+    </div>
+
+    <audio id="bg-music" src="music.mp3" loop></audio>
+
+    <main id="main-content" class="container blurred">
+        <section class="hero-section">
+            <h1 class="gradient-text">Happy Birthday, Name!</h1>
+        </section>
+
+        <div class="reveal-wrapper">
+            <img src="20260623_145849.jpg" alt="Our Favorite Memory" class="revealed-img">
+        </div>
+        
+        <footer class="footer">
+            <p>Made with 🤍</p>
+        </footer>
+    </main>
+
+    <canvas id="snow-canvas"></canvas>
+
+    <script src="script.js"></script>
+</body>
+</html>
