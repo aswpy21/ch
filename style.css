@@ -1,0 +1,147 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: #0b0b0d; /* Dark cozy night backdrop */
+    color: #e4e4e7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Rain on Glass Vignette Effect */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
+    z-index: 70; /* Layers right over the foggy window */
+}
+
+/* Blur & Overlay System */
+.blurred {
+    filter: blur(4px); /* Low blur so it looks like it's just out of focus behind the steam */
+    transition: filter 2.5s ease;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0b0b0d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.overlay-card {
+    background: #121215;
+    border: 1px solid #27272a;
+    padding: 3rem 2rem;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    max-width: 400px;
+    width: 90%;
+}
+
+.gift-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+.cta-button {
+    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+    color: #1e293b;
+    border: none;
+    padding: 0.9rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(161, 196, 253, 0.4);
+}
+
+/* Main Layout */
+.container {
+    max-width: 450px;
+    width: 85%;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none; 
+    user-select: none;
+}
+
+h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+.gradient-text {
+    background: linear-gradient(45deg, #ff758c, #ff7eb3, #a1c4fd, #c2e9fb);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientFlow 6s ease infinite;
+}
+
+.reveal-wrapper {
+    width: 100%;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.revealed-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* The Full-Screen Steam/Fog Canvas */
+#snow-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 50;
+    touch-action: none;
+}
+
+.footer {
+    margin-top: 2rem;
+    color: #52525b;
+    font-size: 0.9rem;
+}
+
+/* Keyframe animations */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
